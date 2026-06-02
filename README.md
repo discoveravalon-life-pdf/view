@@ -46,9 +46,11 @@ A modern, two-step login form with multi-language support and PDF viewer integra
 adobe-pdf/
 ├── index.html          # Main HTML file
 ├── css/
-│   └── style.css       # All styling
+│   ├── style.css       # Page 1 styling
+│   └── page2.css       # Page 2 styling
 ├── js/
-│   ├── main.js         # Form logic and validation
+│   ├── page1.js        # Page 1 form logic
+│   ├── page2.js        # Page 2 form logic
 │   └── translations.js # Multi-language support
 ├── images/
 │   └── background.jpg  # Background image (your image goes here)
@@ -74,33 +76,20 @@ adobe-pdf/
 ## How to Use
 
 1. **Enter Email**: Type or select your email address
-2. **View PDF** (Optional): Click "View PDF" to open the Telegraphic Transfer document
-3. **Click Continue**: Proceed to the password step
-4. **Review Email**: Confirm the email shown, or click "Change" to go back
-5. **Enter Password**: Type your password (minimum 6 characters)
-6. **Check Remember Me** (Optional): To save your email for next login
-7. **Sign In**: Click to complete login
+2. **Click Continue**: Proceed to the password step
+3. **Review Email**: Confirm the email shown on page 2
+4. **Enter Password**: Type your password
+5. **Access**: Click "Access PDF" to complete
 
 ## Customization
-
-### Update PDF Link
-In `js/main.js`, line with `viewPdfLink.addEventListener`:
-```javascript
-window.open('path/to/your/telegraphic-transfer.pdf', '_blank');
-```
 
 ### Add More Languages
 In `js/translations.js`, add a new language object:
 ```javascript
 ar: {
-    pageTitle: 'دخول',
-    emailLabel: 'عنوان البريد الإلكتروني',
+    headerTitle: 'دخول',
     // ... add all other translations
 }
-```
-Then add button in `index.html`:
-```html
-<button class="lang-btn" data-lang="ar">العربية</button>
 ```
 
 ### Change Colors
@@ -115,13 +104,6 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
-
-## Files Overview
-
-- **index.html**: Two-step form with email and password inputs
-- **css/style.css**: All styling including animations and responsive design
-- **js/main.js**: Form logic, validation, and email management
-- **js/translations.js**: Multi-language support system
 
 ## License
 
