@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Password - Page 2</title>
+    <link rel="stylesheet" href="css/page2.css">
+</head>
+<body>
+    <div class="page2-container">
+        <div class="password-card">
+            <div class="card-header">
+                <h1 id="pageTitle">Enter Password</h1>
+                <p id="emailDisplay" class="email-display"></p>
+            </div>
+
+            <div class="card-content">
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="password" id="passwordLabel">Password</label>
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+
+                    <button type="submit" id="accessBtn" class="access-btn">Access PDF</button>
+                </form>
+
+                <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <p id="redirectText">Redirecting...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/page2.js"></script>
+</body>
+</html>
